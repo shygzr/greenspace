@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.greenspace.dao.BookKindMapper" >
+  <resultMap id="BaseResultMap" type="com.greenspace.model.BookKind" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="book_kind_name" property="bookKindName" jdbcType="VARCHAR" />
+    <result column="parent_book_kind_id" property="parentBookKindId" jdbcType="BIGINT" />
+    <result column="cabinet_id" property="cabinetId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="AllAndCabinetResultMap" type="com.greenspace.model.BookKind" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="book_kind_name" property="bookKindName" jdbcType="VARCHAR" />
+    <result column="parent_book_kind_id" property="parentBookKindId" jdbcType="BIGINT" />
+    <result column="cabinet_id" property="cabinetId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <association property="cabinet" javaType="com.greenspace.model.Cabinet" resultMap="CabinetMap"/>
+  </resultMap>
+  <resultMap id="CabinetMap" type="com.greenspace.model.Cabinet" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="caninet_numbet" property="caninetNumbet" jdbcType="TINYINT" />
+    <result column="capacity" property="capacity" jdbcType="TINYINT" />
+    <result column="available_number" property="availableNumber" jdbcType="TINYINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, book_kind_name, parent_book_kind_id, cabinet_id, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from book_kind
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from book_kind
+  </select>
+
+  <select id="selectAllAndCabinet" resultMap="AllAndCabinetResultMap">
+    select
+    b.*, c.*
+    from book_kind b, cabinet c
+    where
+    b.cabinet_id = c.id
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from book_kind
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.greenspace.model.BookKind" >
+    insert into book_kind (id, book_kind_name, parent_book_kind_id, 
+      cabinet_id, status)
+    values (#{id,jdbcType=BIGINT}, #{bookKindName,jdbcType=VARCHAR}, #{parentBookKindId,jdbcType=BIGINT}, 
+      #{cabinetId,jdbcType=BIGINT}, #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.greenspace.model.BookKind" >
+    insert into book_kind
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bookKindName != null" >
+        book_kind_name,
+      </if>
+      <if test="parentBookKindId != null" >
+        parent_book_kind_id,
+      </if>
+      <if test="cabinetId != null" >
+        cabinet_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="bookKindName != null" >
+        #{bookKindName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentBookKindId != null" >
+        #{parentBookKindId,jdbcType=BIGINT},
+      </if>
+      <if test="cabinetId != null" >
+        #{cabinetId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.greenspace.model.BookKind" >
+    update book_kind
+    <set >
+      <if test="bookKindName != null" >
+        book_kind_name = #{bookKindName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentBookKindId != null" >
+        parent_book_kind_id = #{parentBookKindId,jdbcType=BIGINT},
+      </if>
+      <if test="cabinetId != null" >
+        cabinet_id = #{cabinetId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.greenspace.model.BookKind" >
+    update book_kind
+    set book_kind_name = #{bookKindName,jdbcType=VARCHAR},
+      parent_book_kind_id = #{parentBookKindId,jdbcType=BIGINT},
+      cabinet_id = #{cabinetId,jdbcType=BIGINT},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

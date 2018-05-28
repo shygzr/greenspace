@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.greenspace.dao.AuthRolePermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.greenspace.model.AuthRolePermission" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="auth_permission_id" property="authPermissionId" jdbcType="BIGINT" />
+    <result column="auth_role_id" property="authRoleId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, auth_permission_id, auth_role_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from auth_role_permission
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectPermissionIdListByRoleId" resultType="java.lang.Long" parameterType="java.lang.Long" >
+    select
+    auth_permission_id
+    from auth_role_permission
+    where auth_role_id = #{auth_role_id,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from auth_role_permission
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.greenspace.model.AuthRolePermission" >
+    insert into auth_role_permission (id, auth_permission_id, auth_role_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{authPermissionId,jdbcType=BIGINT}, #{authRoleId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.greenspace.model.AuthRolePermission" >
+    insert into auth_role_permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="authPermissionId != null" >
+        auth_permission_id,
+      </if>
+      <if test="authRoleId != null" >
+        auth_role_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="authPermissionId != null" >
+        #{authPermissionId,jdbcType=BIGINT},
+      </if>
+      <if test="authRoleId != null" >
+        #{authRoleId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.greenspace.model.AuthRolePermission" >
+    update auth_role_permission
+    <set >
+      <if test="authPermissionId != null" >
+        auth_permission_id = #{authPermissionId,jdbcType=BIGINT},
+      </if>
+      <if test="authRoleId != null" >
+        auth_role_id = #{authRoleId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.greenspace.model.AuthRolePermission" >
+    update auth_role_permission
+    set auth_permission_id = #{authPermissionId,jdbcType=BIGINT},
+      auth_role_id = #{authRoleId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

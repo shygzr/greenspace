@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.greenspace.dao.BookMapper" >
+  <resultMap id="BaseResultMap" type="com.greenspace.model.Book" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="isbn" property="isbn" jdbcType="BIGINT" />
+    <result column="cabinet_id" property="cabinetId" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="rating" property="rating" jdbcType="DECIMAL" />
+    <result column="binding" property="binding" jdbcType="VARCHAR" />
+    <result column="pages" property="pages" jdbcType="SMALLINT" />
+    <result column="pubdate" property="pubdate" jdbcType="TIMESTAMP" />
+    <result column="publisher" property="publisher" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="TINYINT" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, isbn, cabinet_id, title, author, price, rating, binding, pages, pubdate, image, publisher,
+    number, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from book
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from book
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.greenspace.model.Book" >
+    insert into book (id, isbn, cabinet_id, title,
+      author, price, rating, 
+      binding, pages, pubdate, 
+      publisher, number, image, status
+      )
+    values (#{id,jdbcType=BIGINT}, #{isbn,jdbcType=BIGINT}, #{cabinetId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR},
+      #{author,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{rating,jdbcType=DECIMAL}, 
+      #{binding,jdbcType=VARCHAR}, #{pages,jdbcType=SMALLINT}, #{pubdate,jdbcType=TIMESTAMP}, 
+      #{publisher,jdbcType=VARCHAR}, #{number,jdbcType=TINYINT}, #{image,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.greenspace.model.Book" useGeneratedKeys="true" keyProperty="id" >
+    insert into book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="isbn != null" >
+        isbn,
+      </if>
+      <if test="cabinetId != null" >
+        cabinet_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="rating != null" >
+        rating,
+      </if>
+      <if test="binding != null" >
+        binding,
+      </if>
+      <if test="pages != null" >
+        pages,
+      </if>
+      <if test="pubdate != null" >
+        pubdate,
+      </if>
+      <if test="publisher != null" >
+        publisher,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="isbn != null" >
+        #{isbn,jdbcType=BIGINT},
+      </if>
+      <if test="cabinetId != null" >
+        #{cabinetId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="rating != null" >
+        #{rating,jdbcType=DECIMAL},
+      </if>
+      <if test="binding != null" >
+        #{binding,jdbcType=VARCHAR},
+      </if>
+      <if test="pages != null" >
+        #{pages,jdbcType=SMALLINT},
+      </if>
+      <if test="pubdate != null" >
+        #{pubdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publisher != null" >
+        #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=TINYINT},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.greenspace.model.Book" >
+    update book
+    <set >
+      <if test="isbn != null" >
+        isbn = #{isbn,jdbcType=BIGINT},
+      </if>
+      <if test="cabinetId != null" >
+        cabinet_id = #{cabinetId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="rating != null" >
+        rating = #{rating,jdbcType=DECIMAL},
+      </if>
+      <if test="binding != null" >
+        binding = #{binding,jdbcType=VARCHAR},
+      </if>
+      <if test="pages != null" >
+        pages = #{pages,jdbcType=SMALLINT},
+      </if>
+      <if test="pubdate != null" >
+        pubdate = #{pubdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publisher != null" >
+        publisher = #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=TINYINT},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.greenspace.model.Book" >
+    update book
+    set isbn = #{isbn,jdbcType=BIGINT},
+      cabinet_id = #{cabinetId,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      rating = #{rating,jdbcType=DECIMAL},
+      binding = #{binding,jdbcType=VARCHAR},
+      pages = #{pages,jdbcType=SMALLINT},
+      pubdate = #{pubdate,jdbcType=TIMESTAMP},
+      publisher = #{publisher,jdbcType=VARCHAR},
+      number = #{number,jdbcType=TINYINT},
+      image = #{image,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
